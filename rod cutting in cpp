@@ -1,0 +1,50 @@
+#include <iostream>
+using namespace std;
+
+int main() {
+    int n;
+    cin >> n;
+
+    int price[100], dp[100], parent[100];
+
+    for (int i = 1; i <= n; i++) {
+        cin >> price[i];
+    }
+
+    dp[0] = 0;
+
+    for (int i = 1; i <= n; i++) {
+        dp[i] = 0;
+
+        for (int j = 1; j <= i; j++) {
+            int profit = price[j] + dp[i - j];
+
+            if (profit > dp[i]) {
+                dp[i] = profit;
+                parent[i] = j;
+            }
+        }
+    }
+
+    cout << "Maximum Profit = " << dp[n] << endl;
+
+    cout << "DP Array: ";
+    for (int i = 0; i <= n; i++) {
+        cout << dp[i] << " ";
+    }
+
+    cout << "\nParent Array: ";
+    for (int i = 1; i <= n; i++) {
+        cout << parent[i] << " ";
+    }
+
+    cout << "\nCuts: ";
+    int length = n;
+
+    while (length > 0) {
+        cout << parent[length] << " ";
+        length = length - parent[length];
+    }
+
+    return 0;
+}
